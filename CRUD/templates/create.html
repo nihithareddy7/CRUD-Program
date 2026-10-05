@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Create New Item | TaskFlow CRUD{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-7">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h3 class="fw-bold mb-0">Create New Item</h3>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+            </a>
+        </div>
+
+        <div class="card card-custom shadow-sm border-0 p-4">
+            <form method="POST" action="{{ url_for('create_item') }}">
+                <div class="mb-3">
+                    <label for="title" class="form-label fw-semibold">Title <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="e.g. Design Landing Page Mockup" value="{{ form.title if form else '' }}" required autofocus>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label fw-semibold">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="4" placeholder="Add detailed notes or instructions...">{{ form.description if form else '' }}</textarea>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label for="category" class="form-label fw-semibold">Category</label>
+                        <input type="text" class="form-control" id="category" name="category" list="category-options" placeholder="e.g. Work, Personal, Sales" value="{{ form.category if form else 'General' }}">
+                        <datalist id="category-options">
+                            <option value="Work">
+                            <option value="Personal">
+                            <option value="Finance">
+                            <option value="Inventory">
+                            <option value="Marketing">
+                            <option value="General">
+                        </datalist>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="price" class="form-label fw-semibold">Price / Value ($)</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" step="0.01" min="0" class="form-control" id="price" name="price" placeholder="0.00" value="{{ form.price if form else '0.00' }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label for="status" class="form-label fw-semibold">Status</label>
+                        <select class="form-select" id="status" name="status">
+                            <option value="Pending" {% if form and form.status == 'Pending' %}selected{% endif %}>Pending</option>
+                            <option value="In Progress" {% if form and form.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                            <option value="Completed" {% if form and form.status == 'Completed' %}selected{% endif %}>Completed</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="priority" class="form-label fw-semibold">Priority</label>
+                        <select class="form-select" id="priority" name="priority">
+                            <option value="Low" {% if form and form.priority == 'Low' %}selected{% endif %}>Low</option>
+                            <option value="Medium" {% if not form or form.priority == 'Medium' %}selected{% endif %}>Medium</option>
+                            <option value="High" {% if form and form.priority == 'High' %}selected{% endif %}>High</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 pt-2 border-top">
+                    <a href="{{ url_for('index') }}" class="btn btn-light px-4">Cancel</a>
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="bi bi-check-lg me-1"></i> Save Item
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
